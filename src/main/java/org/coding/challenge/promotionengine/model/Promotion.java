@@ -8,7 +8,7 @@ public class Promotion {
 
     private List<String> skuIds;
 
-    private org.sandy.coding.challenge.model.PromotionCategory category;
+    PromotionCategory category;
 
     private String description;
 
@@ -18,7 +18,7 @@ public class Promotion {
 
     private double price;
 
-    public Promotion(String id, List<String> skuIds, org.sandy.coding.challenge.model.PromotionCategory category, String description, int percentage, int quantity, double price) {
+    public Promotion(String id, List<String> skuIds, PromotionCategory category, String description, int percentage, int quantity, double price) {
         this.id = id;
         this.skuIds = skuIds;
         this.category = category;
@@ -44,11 +44,11 @@ public class Promotion {
         this.skuIds = skuIds;
     }
 
-    public org.sandy.coding.challenge.model.PromotionCategory getCategory() {
+    public PromotionCategory getCategory() {
         return category;
     }
 
-    public void setCategory(org.sandy.coding.challenge.model.PromotionCategory category) {
+    public void setCategory(PromotionCategory category) {
         this.category = category;
     }
 
