@@ -37,11 +37,9 @@ public class OrderAmountCalculatorImpl implements OrderAmountCalculator {
             promotions.stream().forEach(promotion -> {
                 if (PromotionCategory.QUANTITY.equals(promotion.getCategory())) {
                     if (promotion.getSkuIds().contains(orderItem.getSkuId())) {
-                        int quantity = promotion.getQuantity();
-                        int orderQuantity = orderItem.getQuantity();
-                        while (quantity < orderQuantity) {
-                            orderQuantity -= quantity;
+                        while (promotion.getQuantity() < orderItem.getQuantity()) {
                             billItem.addPromotion(promotion);
+                            orderItem.setQuantity(orderItem.getQuantity() - promotion.getQuantity());
                         }
                     }
                 }

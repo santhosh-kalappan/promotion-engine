@@ -63,9 +63,9 @@ public class BillItem {
             if (PromotionCategory.QUANTITY.equals(promotion.getCategory())) {
                 System.out.println("Applying promotion " + promotion.getDescription());
                 amount += promotion.getPrice();
-                orderItem.setQuantity(orderItem.getQuantity() - promotion.getQuantity());
             }
         });
+
         if (orderItem.getQuantity() > 0)
             amount += orderItem.getQuantity() * unitPrice;
 
