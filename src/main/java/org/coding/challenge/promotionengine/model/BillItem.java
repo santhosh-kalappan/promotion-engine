@@ -13,6 +13,8 @@ public class BillItem {
 
     private double amount;
 
+    private int units = 0;
+
     public OrderItem getOrderItem() {
         return orderItem;
     }
@@ -55,19 +57,24 @@ public class BillItem {
 
         if (promotionsApplied == null || promotionsApplied.size() == 0) {
             System.out.println("No promotion applied for order Item: " + orderItem.getId());
+            units += orderItem.getQuantity();
             amount = orderItem.getQuantity() * unitPrice;
-            return;
+        } else {
+            promotionsApplied.stream().forEach(promotion -> {
+                if (PromotionCategory.QUANTITY.equals(promotion.getCategory()) || PromotionCategory.COMBO.equals(promotion.getCategory())) {
+                    System.out.println("Applying promotion " + promotion.getDescription());
+                    amount += promotion.getPrice();
+                    units += promotion.getQuantity();
+                }
+            });
+
+            if (orderItem.getQuantity() > 0) {
+                amount += orderItem.getQuantity() * unitPrice;
+                units += orderItem.getQuantity();
+            }
         }
 
-        promotionsApplied.stream().forEach(promotion -> {
-            if (PromotionCategory.QUANTITY.equals(promotion.getCategory())) {
-                System.out.println("Applying promotion " + promotion.getDescription());
-                amount += promotion.getPrice();
-            }
-        });
-
-        if (orderItem.getQuantity() > 0)
-            amount += orderItem.getQuantity() * unitPrice;
+        System.out.println(orderItem.getSkuId() + " x " + units + ": " + amount);
 
     }
 

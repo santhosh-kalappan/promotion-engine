@@ -77,7 +77,7 @@ public class OrderAmountCalculatorImplTest {
         Arrays.asList("A");
         promotions.add(new Promotion("P1", Arrays.asList("A"), PromotionCategory.QUANTITY, "3 of A", 0, 3, 130));
         promotions.add(new Promotion("P2", Arrays.asList("B"), PromotionCategory.QUANTITY, "2 of B", 0, 2, 45));
-        promotions.add(new Promotion("P3", Arrays.asList("C", "D"), PromotionCategory.COMBO, "C & D", 0, 3, 30));
+        promotions.add(new Promotion("P3", Arrays.asList("C", "D"), PromotionCategory.COMBO, "C & D", 0, 1, 30));
         return promotions;
     }
 

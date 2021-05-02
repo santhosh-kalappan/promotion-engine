@@ -37,9 +37,20 @@ public class OrderAmountCalculatorImpl implements OrderAmountCalculator {
             promotions.stream().forEach(promotion -> {
                 if (PromotionCategory.QUANTITY.equals(promotion.getCategory())) {
                     if (promotion.getSkuIds().contains(orderItem.getSkuId())) {
-                        while (promotion.getQuantity() < orderItem.getQuantity()) {
+                        while (promotion.getQuantity() <= orderItem.getQuantity()) {
                             billItem.addPromotion(promotion);
                             orderItem.setQuantity(orderItem.getQuantity() - promotion.getQuantity());
+                        }
+                    }
+                }
+                if (PromotionCategory.COMBO.equals(promotion.getCategory())) {
+                    if (promotion.getSkuIds().contains(orderItem.getSkuId())) {
+                        while (orderItem.getQuantity() >= promotion.getQuantity()) {
+                            if (checkAndApplyComboPromotion(order, promotion)) {
+                                billItem.addPromotion(promotion);
+                            } else {
+                                return;
+                            }
                         }
                     }
                 }
@@ -52,6 +63,30 @@ public class OrderAmountCalculatorImpl implements OrderAmountCalculator {
         double orderAmount = billItems.stream().mapToDouble(billItem -> billItem.getAmount()).sum();
 
         return orderAmount;
+
+    }
+
+    private boolean checkAndApplyComboPromotion(Order order, Promotion promotion) {
+        boolean comboApplicable = false;
+        List<String> orderSkuIds = new ArrayList<>();
+        promotion.getSkuIds().stream().forEach(skuId -> {
+            order.getItems().stream().forEach(orderItem -> {
+                if (orderItem.getSkuId().equals(skuId) && orderItem.getQuantity() >= promotion.getQuantity()) {
+                    orderSkuIds.add(skuId);
+                }
+            });
+        });
+
+        if (orderSkuIds.equals(promotion.getSkuIds())) {
+            order.getItems().stream().forEach(orderItem -> {
+                if (promotion.getSkuIds().contains(orderItem.getSkuId())) {
+                    orderItem.setQuantity(orderItem.getQuantity() - promotion.getQuantity());
+                }
+            });
+            return true;
+        }
+
+        return false;
 
     }
 
