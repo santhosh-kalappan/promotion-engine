@@ -36,11 +36,13 @@ public class OrderAmountCalculatorImpl implements OrderAmountCalculator {
 
             promotions.stream().forEach(promotion -> {
                 if (PromotionCategory.QUANTITY.equals(promotion.getCategory())) {
-                    int quantity = promotion.getQuantity();
-                    int orderQuantity = orderItem.getQuantity();
-                    while(quantity < orderQuantity) {
-                        orderQuantity -= quantity;
-                        billItem.addPromotion(promotion);
+                    if (promotion.getSkuIds().contains(orderItem.getSkuId())) {
+                        int quantity = promotion.getQuantity();
+                        int orderQuantity = orderItem.getQuantity();
+                        while (quantity < orderQuantity) {
+                            orderQuantity -= quantity;
+                            billItem.addPromotion(promotion);
+                        }
                     }
                 }
             });
@@ -49,7 +51,7 @@ public class OrderAmountCalculatorImpl implements OrderAmountCalculator {
             billItems.add(billItem);
         });
 
-        double orderAmount = billItems.stream().mapToDouble(billItem ->  billItem.getAmount()).sum();
+        double orderAmount = billItems.stream().mapToDouble(billItem -> billItem.getAmount()).sum();
 
         return orderAmount;
 
