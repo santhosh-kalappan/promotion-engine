@@ -15,6 +15,7 @@ public class OrderAmountCalculatorImplTest {
     public void testScenarioA() {
         OrderAmountCalculatorImpl orderAmountCalculator = new OrderAmountCalculatorImpl(getUnitPriceList(), getPromotions());
         double amount = orderAmountCalculator.calculateOrderAmount(createScenarioAOrder());
+        System.out.println("Expected: 100, Actual: " + amount);
         Assert.assertTrue(100 == amount);
     }
 
@@ -22,6 +23,7 @@ public class OrderAmountCalculatorImplTest {
     public void testScenarioB() {
         OrderAmountCalculatorImpl orderAmountCalculator = new OrderAmountCalculatorImpl(getUnitPriceList(), getPromotions());
         double amount = orderAmountCalculator.calculateOrderAmount(createScenarioBOrder());
+        System.out.println("Expected: 370, Actual: " + amount);
         Assert.assertTrue(370 == amount);
     }
 
@@ -29,6 +31,7 @@ public class OrderAmountCalculatorImplTest {
     public void testScenarioC() {
         OrderAmountCalculatorImpl orderAmountCalculator = new OrderAmountCalculatorImpl(getUnitPriceList(), getPromotions());
         double amount = orderAmountCalculator.calculateOrderAmount(createScenarioCOrder());
+        System.out.println("Expected: 280, Actual: " + amount);
         Assert.assertTrue(280 == amount);
     }
 
@@ -72,8 +75,8 @@ public class OrderAmountCalculatorImplTest {
     private List<Promotion> getPromotions() {
         List<Promotion> promotions = new ArrayList<>();
         Arrays.asList("A");
-        promotions.add(new Promotion("P1", Arrays.asList("A"), PromotionCategory.QUATITY, "3 of A", 0, 3, 130));
-        promotions.add(new Promotion("P2", Arrays.asList("B"), PromotionCategory.QUATITY, "2 of B", 0, 3, 45));
+        promotions.add(new Promotion("P1", Arrays.asList("A"), PromotionCategory.QUANTITY, "3 of A", 0, 3, 130));
+        promotions.add(new Promotion("P2", Arrays.asList("B"), PromotionCategory.QUANTITY, "2 of B", 0, 2, 45));
         promotions.add(new Promotion("P3", Arrays.asList("C", "D"), PromotionCategory.COMBO, "C & D", 0, 3, 30));
         return promotions;
     }
